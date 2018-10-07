@@ -19,8 +19,10 @@ public class _61NodeExistsSync implements Watcher {
 
 	private static ZooKeeper zooKeeper;
 
+	private static String address = "111.231.84.99:2181";
+
 	public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
-		zooKeeper = new ZooKeeper("192.168.10.5:2181", 5000, new _61NodeExistsSync());
+		zooKeeper = new ZooKeeper(address, 5000, new _61NodeExistsSync());
 		Thread.sleep(Integer.MAX_VALUE);
 	}
 

@@ -26,10 +26,12 @@ public class _81CreateNodeSyncAuth implements Watcher {
 	private static ZooKeeper zookeeper;
 	private static boolean somethingDone = false;
 
+	private static String address = "111.231.84.99:2181";
+
 	public static void main(String[] args) throws IOException, InterruptedException, NoSuchAlgorithmException {
-//		zookeeper = new ZooKeeper("192.168.10.5:2181", 5000, new _81CreateNodeSyncAuth());
-//		Thread.sleep(Integer.MAX_VALUE);
-		System.out.println(DigestAuthenticationProvider.generateDigest("jerome:123456"));
+		zookeeper = new ZooKeeper(address, 5000, new _81CreateNodeSyncAuth());
+		Thread.sleep(Integer.MAX_VALUE);
+//		System.out.println(DigestAuthenticationProvider.generateDigest("zj:123456"));
 	}
 
 	/**
@@ -49,11 +51,11 @@ public class _81CreateNodeSyncAuth implements Watcher {
 
 			ACL aclIp = new ACL(Perms.READ, new Id("ip", "110.86.70.80"));
 			ACL aclDigest = new ACL(Perms.READ | Perms.WRITE,
-					new Id("digest", DigestAuthenticationProvider.generateDigest("jerome:123456")));
-			ArrayList<ACL> acls = new ArrayList<ACL>();
+					new Id("digest", DigestAuthenticationProvider.generateDigest("zj:123456")));
+			ArrayList<ACL> acls = new ArrayList<ACL>(); // 不同类型获取数据的方式
 			acls.add(aclDigest);
 			acls.add(aclIp);
-			// zookeeper.addAuthInfo("digest", "jerome:123456".getBytes());
+
 			String path = zookeeper.create("/node1", "123".getBytes(), acls, CreateMode.PERSISTENT);
 			System.out.println("return path:" + path);
 

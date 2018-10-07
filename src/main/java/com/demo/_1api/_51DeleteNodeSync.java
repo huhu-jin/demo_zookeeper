@@ -18,15 +18,17 @@ public class _51DeleteNodeSync implements Watcher {
 
 	private static ZooKeeper zooKeeper;
 
+	private static String address = "111.231.84.99:2181";
+
 	public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
-		zooKeeper = new ZooKeeper("192.168.10.5:2181", 5000, new _51DeleteNodeSync());
+		zooKeeper = new ZooKeeper(address, 5000, new _51DeleteNodeSync());
 		Thread.sleep(Integer.MAX_VALUE);
 	}
 
 	private void doSomething(ZooKeeper zooKeeper) {
 		try {
 			// -1表示不校验版本信息
-			zooKeeper.delete("/node2/node21", -1);
+			zooKeeper.delete("/node2/node22", -1);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		} catch (KeeperException e) {

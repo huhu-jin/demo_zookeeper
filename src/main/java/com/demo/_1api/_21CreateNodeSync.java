@@ -19,8 +19,10 @@ public class _21CreateNodeSync implements Watcher {
 
 	private static ZooKeeper zookeeper;
 
+	private static String address = "111.231.84.99:2181";
+
 	public static void main(String[] args) throws IOException, InterruptedException {
-		zookeeper = new ZooKeeper("192.168.10.5:2181", 5000, new _21CreateNodeSync());
+		zookeeper = new ZooKeeper(address, 5000, new _21CreateNodeSync());
 		System.out.println(zookeeper.getState());
 		Thread.sleep(Integer.MAX_VALUE);
 	}
@@ -38,13 +40,17 @@ public class _21CreateNodeSync implements Watcher {
 		System.out.println("do something");
 	}
 
+
+    /**
+     * @param event
+     */
 	@Override
 	public void process(WatchedEvent event) {
 		System.out.println("收到事件：" + event);
 		if (event.getState() == KeeperState.SyncConnected) {
 			doSomething();
-		}
-	}
+        }
+    }
 	
 	/*
 	输出
@@ -53,5 +59,4 @@ public class _21CreateNodeSync implements Watcher {
 	return path:/node2
 	do something
 	*/
-
 }

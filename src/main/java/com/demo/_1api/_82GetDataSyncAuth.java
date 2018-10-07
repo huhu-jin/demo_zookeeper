@@ -20,13 +20,15 @@ public class _82GetDataSyncAuth implements Watcher {
 	private static ZooKeeper zooKeeper;
 	private static Stat stat = new Stat();
 
+	private static String address = "111.231.84.99:2181";
+
 	public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
-		zooKeeper = new ZooKeeper("192.168.10.5:2181", 5000, new _82GetDataSyncAuth());
+		zooKeeper = new ZooKeeper(address, 5000, new _82GetDataSyncAuth());
 		Thread.sleep(Integer.MAX_VALUE);
 	}
 
 	private void doSomething(ZooKeeper zookeeper) {
-		zooKeeper.addAuthInfo("digest", "jerome:1234".getBytes());
+		zooKeeper.addAuthInfo("digest", "zj:123456".getBytes());
 		try {
 			//zooKeeper.delete("/node1", -1);
 			System.out.println(new String(zooKeeper.getData("/node1", true, stat)));

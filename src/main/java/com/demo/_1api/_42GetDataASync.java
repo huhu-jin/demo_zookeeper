@@ -18,47 +18,49 @@ import org.apache.zookeeper.data.Stat;
  */
 public class _42GetDataASync implements Watcher {
 
-	private static ZooKeeper zooKeeper;
+    private static ZooKeeper zooKeeper;
 
-	public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
-		zooKeeper = new ZooKeeper("192.168.10.5:2181", 5000, new _42GetDataASync());
-		Thread.sleep(Integer.MAX_VALUE);
-	}
+    private static String address = "111.231.84.99:2181";
 
-	private void doSomething(ZooKeeper zookeeper) {
-		zooKeeper.getData("/node2", true, new IDataCallback(), null);
-	}
+    public static void main(String[] args) throws IOException, InterruptedException, KeeperException {
+        zooKeeper = new ZooKeeper(address, 5000, new _42GetDataASync());
+        Thread.sleep(Integer.MAX_VALUE);
+    }
 
-	@Override
-	public void process(WatchedEvent event) {
-		if (event.getState() == KeeperState.SyncConnected) {
-			if (event.getType() == EventType.None && null == event.getPath()) {
-				doSomething(zooKeeper);
-			} else {
-				if (event.getType() == EventType.NodeDataChanged) {
-					try {
-						zooKeeper.getData(event.getPath(), true, new IDataCallback(), null);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-	}
+    private void doSomething(ZooKeeper zookeeper) {
+        zooKeeper.getData("/node2", true, new IDataCallback(), null);
+    }
 
-	static class IDataCallback implements AsyncCallback.DataCallback {
+    @Override
+    public void process(WatchedEvent event) {
+        if (event.getState() == KeeperState.SyncConnected) {
+            if (event.getType() == EventType.None && null == event.getPath()) {
+                doSomething(zooKeeper);
+            } else {
+                if (event.getType() == EventType.NodeDataChanged) {
+                    try {
+                        zooKeeper.getData(event.getPath(), true, new IDataCallback(), null);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
 
-		@Override
-		public void processResult(int rc, String path, Object ctx, byte[] data, Stat stat) {
-			try {
-				System.out.println(new String(zooKeeper.getData(path, true, stat)));
-				System.out.println("stat:" + stat);
-			} catch (KeeperException e) {
-				e.printStackTrace();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    static class IDataCallback implements AsyncCallback.DataCallback {
+
+        @Override
+        public void processResult(int rc, String path, Object ctx, byte[] data, Stat stat) {
+            try {
+                System.out.println(new String(zooKeeper.getData(path, true, stat)));
+                System.out.println("stat:" + stat);
+            } catch (KeeperException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }
